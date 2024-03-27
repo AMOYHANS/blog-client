@@ -9,10 +9,19 @@ const constantRoutes: RouteRecordRaw[] = [
     path: '/home', component: () => import('@/pages/home/index.vue'),
   },
   {
-    path: '/login', component: () => import('@/pages/login/index.vue'),
+    path: '/login', component: () => import('@/pages/register/index.vue'),
+    meta:{
+      isLogin: true
+    }
   },
   {
     path: '/register', component: () => import('@/pages/register/index.vue'),
+    meta:{
+      isLogin: false
+    }
+  },
+  {
+    path: '/write', component: () => import('@/pages/write/index.vue'),
   },
 ]
 

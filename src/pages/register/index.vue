@@ -1,10 +1,16 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-const isLogin = ref<Boolean>(false)
+import { ref, watch } from 'vue'
+import { useRoute } from 'vue-router';
+const route = useRoute()
+const isLogin = ref<Boolean>(route.meta.isLogin as boolean)
+watch(() => route.path, (newVal) => {
+  isLogin.value = newVal === '/login'
+})
+
 </script>
 
 <template>
-  <div class="container">
+  <div class="container" :class="isLogin ? '' : 'container2'">
     <div class="inputForm">
       <div class="title">{{isLogin ? '登录' : '注册'}}</div>
       <div class="formItems">
@@ -116,6 +122,13 @@ const isLogin = ref<Boolean>(false)
         }
       }
     }
+  }
+
+  .container2{
+    object-fit: cover;
+    background: linear-gradient(rgba(15, 13, 13, 0.5), rgba(54, 15, 15, 0.5)),url('@/assets/bg4.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
   }
 
 </style>
