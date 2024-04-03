@@ -56,16 +56,21 @@ const setFile = (e: Event) => {
 
 <style scoped lang="scss">
 .container{
-  width: calc(100% - 40px);
-  height: 100%;
+  max-width: 1000px;
+  height: calc(100% - 100px);
   display: flex;
+  width: 90%;
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
   padding: 20px;
   .title{
     font-size: 32px;
     margin-bottom: 10px;
+    width: 100%;
   }
   form{
+    width: 100%;
     .avatar{
       display: flex;
       justify-content: space-between;

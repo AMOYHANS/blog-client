@@ -1,48 +1,66 @@
 <script setup lang="ts">
 import Top from '@/components/home/Top.vue'
 import Post from '@/components/home/Post.vue'
+import {ref} from 'vue'
+const isPublic = ref(true)
 </script>
 
 <template>
   <div class="container">
     <Top/>
+    <div class="tab">
+      <span class="public" :class="isPublic ? 'enabled' : ''" @click="isPublic = true">广场</span> |
+      <span class="mine" :class="!isPublic ? 'enabled' : ''" @click="isPublic = false">我的</span>
+    </div>
     <div class="main">
-      <div class="left">
-        left
-      </div>
-      <div class="right">
-        <Post/>
-        <Post/>
-        <Post/>
-        <Post/>
-        <Post/>
-      </div>
+      <Post/>
+      <Post/>
+      <Post/>
+      <Post/>
+      <Post/>
+      <Post/>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
   .container {
-    height: 100%;
-
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
     .main{
-      width: 100%;
-      height: 90%;
+      min-width: 800px;
+      width: 50%;
+      background-color: rgb(243, 243, 243);
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      .left{
-        flex: 1;
+    }
+    .tab{
+      font-size: 20px;
+      width: 400px;
+      display: flex;
+      justify-content: center;
+      padding: 10px;
+      gap: 10px;
+      .public, .mine{
+        background-color: var(--light-color);
+        width: 200px;
+        text-align: center;
+        padding: 10px;
+        border-radius: 10px;
+        cursor: pointer;
+        &:hover{
+          transform: scale(1.05);
+        }
       }
-      .right{
-        flex: 2;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        row-gap: 10px;
-        column-gap: 20px;
-        height: 100%;
-        margin-top: 10px;
+
+      .enabled{
+        background-color: var(--dark-color);
+        color: var(--light-color);
       }
     }
   } 

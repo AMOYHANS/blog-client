@@ -5,23 +5,13 @@ import PostInfo from '@/components/post/PostInfo.vue'
 <template>
   <div class="container">
     <PostInfo/>
-    <div class="right">zsfcsvsdvdsvddsa
-    </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 .container{
   display: flex;
+  height: calc(100% - 48px);
+}
 
-  .right{
-    flex: 1;
-  }
-}
-@media screen and (max-width: 768px) {
-  .container{
-    flex-direction: column;
-}
-  
-}
 </style>

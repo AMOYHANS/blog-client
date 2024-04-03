@@ -35,7 +35,6 @@ const router = useRouter();
   height: 48px;
   position: sticky;
   top: 0;
-  left: 0;
   z-index: 99;
   background-color: var(--light-color);
   user-select: none;

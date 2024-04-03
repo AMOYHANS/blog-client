@@ -5,23 +5,15 @@ import AccountInfo from '@/components/setting/AccountInfo.vue'
 <template>
   <div class="container">
     <AccountInfo/>
-    <div class="right">zsfcsvsdvdsvddsa
-    </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 .container{
+  padding-top: 20px;
   display: flex;
-
-  .right{
-    flex: 1;
-  }
-}
-@media screen and (max-width: 768px) {
-  .container{
-    flex-direction: column;
-}
-  
+  height: calc(100% - 100px);
+  align-items: center;
+  justify-content: center;
 }
 </style>

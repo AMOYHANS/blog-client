@@ -3,9 +3,15 @@
 
 <template>
   <div class="container">
-    <span>Vue3 + Nestjs</span>
-    <span class="title">博客系统</span>
     <img class="homeBg" src="@/assets/bg2.webp" alt="">
+    <div class="divide">
+      <hr class="hr"/>
+      <img class="avatar" src="@/assets/bg1.jpg" alt="">
+      <div class="txt">
+        <span class="name">姓名</span>
+        <span class="desc">个性签名</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -14,41 +20,65 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 80%;
+  height: 100vh;
   margin: 20px 20px 0;
   overflow: hidden;
   position: relative;
-  .title{
-    position: absolute;
-    top: 15%;
-    font-size: 50px;
-    color: rgb(75, 68, 55);
-  }
+  gap: 0;;
 
-  span{
-    font-size: 32px;
-    position: absolute;
-    color: var(--light-color);
-    text-align: center;
-    user-select: none;
-  }
   .homeBg{
     width: 80%;
-    height: 500px;
+    height: 350px;
     object-fit: cover;
     overflow: hidden;
   }
-}
-@media screen and (max-width: 768px) {
-  .container{
-    margin:  0;
-    gap: 40px;
-    span{
-      position: static;
-      font-size: 32px;
-      color: var(--dark-color);
+  .divide{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    border-bottom: 1px solid gray;
+    hr{
+      width: 100vw;
+    }
+  
+    .avatar{
+      width: 200px;
+      min-height: 200px;
+      position: relative;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid var(--dark-color);
+      padding: 5px;
+      transform: translateY(-50%);
+      background-color: white;
+      &:hover{
+        transform: translateY(-50%) scale(1.2);
+        transition: all 0.5s ease-in-out;
+      }
+    }
+    .txt{
+      position: relative;
+      transform: translateY(-60px);
+      height: 1%;
+      width: 200px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+      justify-content: center;
+
+      .name{
+        font-size: 32px;
+        font-weight: 600;
+      }
+
+      .desc{
+        font-size: 16px;
+        font-weight: 400;
+      }
     }
   }
+
 }
 </style>

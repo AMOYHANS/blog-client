@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, defineEmits } from 'vue';
+import { computed, ref } from 'vue';
 const emojiRef = ref<HTMLDivElement>()
 const emit = defineEmits(['emojiClick'])
 
@@ -40,6 +40,9 @@ const hanedleEmjClick = (e: MouseEvent) => {
   overflow-y: scroll;
   border-radius: 4px;
   background-color: aliceblue;
+  position: absolute;
+  top: 50px;
+  left: 10px;
   span{
     font-size: 20px;
     cursor: pointer;

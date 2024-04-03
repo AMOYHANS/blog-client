@@ -29,6 +29,9 @@ const constantRoutes: RouteRecordRaw[] = [
   {
     path: '/post', component: () => import('@/pages/post/index.vue'),
   },
+  {
+    path: '/about', component: () => import('@/pages/about/index.vue'),
+  },
 ]
 
 const router = VueRouter.createRouter({

@@ -36,8 +36,8 @@ const handleTopClick = (e: Event) => {
           📸
           <input v-if="!file" type="file" @change="setFile">
         </label>
-        <label title="emoji" ref="emjRef" @click="isEmjShow = !isEmjShow" @focus="console.log('lll')">😉
-          <Emoji class="emj" v-show="isEmjShow" @emoji-click="handleEmjClick"/>
+        <label title="emoji" ref="emjRef" @click="isEmjShow = !isEmjShow">😉
+          <Emoji v-show="isEmjShow" @emoji-click="handleEmjClick"/>
         </label>
       </div>
       <div class="submit">
@@ -45,7 +45,7 @@ const handleTopClick = (e: Event) => {
         <button>提交</button>
       </div>
     </div>
-    <textarea v-model="textContent" placeholder="写点什么..." id="" cols="30" rows="10" @change="() => console.log(textContent)"/>
+    <textarea v-model="textContent" placeholder="写点什么..." id="" cols="30" rows="10" @change=""/>
   </div>
 </template>
 
@@ -94,11 +94,6 @@ const handleTopClick = (e: Event) => {
       font-size: 32px;
       position: relative;
       user-select: none;
-      .emj{
-        position: absolute;
-        top: 50px;
-        left: 10px;
-      }
       input{
         display: none;
         width: 100%;
