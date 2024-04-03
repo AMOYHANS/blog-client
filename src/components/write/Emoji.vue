@@ -10,6 +10,7 @@ const emojiCodes = computed(() => {
   }
 
   for (let b = 129296; b <= 129488; b++) {
+    if(b !== 129350)
     codes.push(b);
   }
   return codes

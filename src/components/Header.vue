@@ -12,16 +12,16 @@ const router = useRouter();
     </div>
     <div class="mid">
       <span class="midItem"  @click="router.push('/home')">首页</span>
-      <span class="midItem">关于</span>
+      <span class="midItem" @click="router.push('/post')">关于</span>
       <span class="midItem">联系</span>
       <span class="midItem" @click="router.push('/write')">创作</span>
       <span class="midItem">退出</span>
     </div>
     <div class="right">
-      <span @click="router.push('/login')">登录</span>
-      <span @click="router.push('/register')">注册</span>
-      <div class="avartarBg">
-      <img src="../assets/default.webp" class="avatar">
+      <!-- <span @click="router.push('/login')">登录</span>
+      <span @click="router.push('/register')">注册</span> -->
+      <div class="avartarBg" @click="router.push('/setting')">
+        <img src="../assets/default.webp" class="avatar">
       </div>
     </div>
   </div>
@@ -38,6 +38,7 @@ const router = useRouter();
   left: 0;
   z-index: 99;
   background-color: var(--light-color);
+  user-select: none;
 }
 
 .left{
@@ -67,8 +68,7 @@ const router = useRouter();
     height: 30px;
   }
   .avartarBg{
-    margin-left: 20px;
-    display: none;
+    margin: 0 15px;
   }
 }
 

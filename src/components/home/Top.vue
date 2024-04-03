@@ -3,7 +3,8 @@
 
 <template>
   <div class="container">
-    <span>Vue3 + Nestjs<br>博客系统</span>
+    <span>Vue3 + Nestjs</span>
+    <span class="title">博客系统</span>
     <img class="homeBg" src="@/assets/bg2.webp" alt="">
   </div>
 </template>
@@ -18,18 +19,36 @@
   margin: 20px 20px 0;
   overflow: hidden;
   position: relative;
+  .title{
+    position: absolute;
+    top: 15%;
+    font-size: 50px;
+    color: rgb(75, 68, 55);
+  }
 
   span{
-    font-size: 24px;
+    font-size: 32px;
     position: absolute;
     color: var(--light-color);
     text-align: center;
     user-select: none;
   }
   .homeBg{
-    width: 100%;
+    width: 80%;
+    height: 500px;
     object-fit: cover;
     overflow: hidden;
+  }
+}
+@media screen and (max-width: 768px) {
+  .container{
+    margin:  0;
+    gap: 40px;
+    span{
+      position: static;
+      font-size: 32px;
+      color: var(--dark-color);
+    }
   }
 }
 </style>

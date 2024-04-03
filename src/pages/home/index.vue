@@ -45,5 +45,5 @@ import Post from '@/components/home/Post.vue'
         margin-top: 10px;
       }
     }
-  }
+  } 
 </style>

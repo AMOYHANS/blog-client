@@ -23,6 +23,12 @@ const constantRoutes: RouteRecordRaw[] = [
   {
     path: '/write', component: () => import('@/pages/write/index.vue'),
   },
+  {
+    path: '/setting', component: () => import('@/pages/setting/index.vue'),
+  },
+  {
+    path: '/post', component: () => import('@/pages/post/index.vue'),
+  },
 ]
 
 const router = VueRouter.createRouter({
