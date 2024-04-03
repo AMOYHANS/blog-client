@@ -3,7 +3,17 @@ import About from "@/components/About.vue";
 </script>
 
 <template>
-  <About/>
+  <div class="container">
+    <About/>
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+  .container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100% - 48px);
+    overflow: hidden;
+  }
+</style>

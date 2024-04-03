@@ -36,7 +36,7 @@ const router = useRouter();
   position: sticky;
   top: 0;
   z-index: 99;
-  background-color: var(--light-color);
+  background-color: var(--primary-color);
   user-select: none;
 }
 
@@ -48,6 +48,7 @@ const router = useRouter();
     justify-content: center;
     align-items: center;
     gap: 10px;
+    color: var(--light-color);
 }
 
 @media screen and (max-width: 768px) {
@@ -65,9 +66,12 @@ const router = useRouter();
   .avatar{
     width: 30px;
     height: 30px;
+    position: relative;
   }
   .avartarBg{
     margin: 0 15px;
+    position: absolute;
+    right: 5px;
   }
 }
 
@@ -77,7 +81,7 @@ const router = useRouter();
     color: #333;
     font-size: 20px;
     &:hover{
-        color: #0897c3;
+        color: var(--dark-color);
         font-size: 25px;
     }
 }
@@ -88,6 +92,9 @@ const router = useRouter();
     justify-content: center;
     align-items: center;
     gap: 10px;
+    span{
+      color: var(--light-color);
+    }
 }
 .right{
     height: 100%;
@@ -98,11 +105,16 @@ const router = useRouter();
     align-items: center;
     gap: 10px;
     cursor: pointer;
+    .avartarBg{
+      position: absolute;
+      right: 20px;
+    }
+    .avatar{
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+    }
+    
 }
 
-.avatar{
-  height: 40px;
-  width: 40px;
-  border-radius: 50%;
-}
 </style>

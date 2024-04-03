@@ -26,7 +26,7 @@ const handleTabClick = (type: number) => {
         <img src="@/assets/bg1.jpg" alt="">
         <div class="right">
           <div class="name">
-            姓名{{ index }} <div class="status"></div>
+            姓名{{ index }} <div class="status">√</div>
             在线
           </div>
           <div class="desc">不要迷恋哥，哥只是个传说</div>
@@ -38,7 +38,7 @@ const handleTabClick = (type: number) => {
 
 <style scoped lang="scss">
 .container{
-  min-width: 340px;
+  min-width: 400px;
   margin: 10px;
   margin-right: 20px;
   background-color: #d6dce1;
@@ -48,7 +48,7 @@ const handleTabClick = (type: number) => {
   display: flex;
   overflow: scroll;
   flex-direction: column;
-  height: calc(100% - 48px);
+  height: 100%;
   .top{
     height: 100px;
     display: flex;

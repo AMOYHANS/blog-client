@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router';
+const router = useRouter();
 </script>
 
 <template>
@@ -6,7 +8,7 @@
     <img class="homeBg" src="@/assets/bg2.webp" alt="">
     <div class="divide">
       <hr class="hr"/>
-      <img class="avatar" src="@/assets/bg1.jpg" alt="">
+      <img class="avatar" src="@/assets/bg1.jpg" @click="router.push('/about')">
       <div class="txt">
         <span class="name">姓名</span>
         <span class="desc">个性签名</span>
@@ -53,7 +55,7 @@
       transform: translateY(-50%);
       background-color: white;
       &:hover{
-        transform: translateY(-50%) scale(1.2);
+        transform: translateY(-50%) scale(1.1);
         transition: all 0.5s ease-in-out;
       }
     }

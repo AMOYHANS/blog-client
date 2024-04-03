@@ -25,16 +25,12 @@
   width: 400px;
   max-height: 500px;
   gap: 4px;
-  box-shadow: 1px 1px 20px #322a2a;
+  box-shadow: 1px 1px 10px #8a8181;
   border-radius: 5px;
   margin: 15px;
   padding: 0;
   cursor: pointer;
   background-color: var(--light-color);
-
-  &:hover{
-    transform: scale(1.02);
-  }
 
   .top{
     display: flex;
