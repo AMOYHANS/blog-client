@@ -10,7 +10,6 @@ import AccountInfo from '@/components/setting/AccountInfo.vue'
 
 <style scoped lang="scss">
 .container{
-  padding-top: 20px;
   display: flex;
   height: calc(100% - 100px);
   align-items: center;

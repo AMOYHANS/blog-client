@@ -41,7 +41,8 @@ const isPublic = ref(true)
     }
     .tab{
       font-size: 20px;
-      width: 400px;
+      max-width: 400px;
+      width: 90%;
       display: flex;
       justify-content: center;
       padding: 10px;
@@ -64,4 +65,5 @@ const isPublic = ref(true)
       }
     }
   } 
+
 </style>

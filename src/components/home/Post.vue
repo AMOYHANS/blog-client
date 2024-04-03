@@ -9,9 +9,13 @@
         <div class="name">项目</div>
         <div class="desc">1小时前</div>
       </div>
+      <div class="like" :class="'liked'">
+        ❤
+        <div class="num">100人赞过</div>
+      </div>
     </div>
     <img class="cover" src="@/assets/default.webp" alt="">
-    <span class="title">发多少江南世家还是方便</span>
+    <span class="title">发多少江南世家还是风格的 放缩方便</span>
     <span class="content">fsd 房贷首付是否是法国是法国给士大夫大师傅吧发啊hi腐坏发货ua房贷首付是否是法国是法国给士大夫大师傅吧发啊hi腐坏发货ua</span>
   </div>
 </template>
@@ -22,7 +26,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 400px;
+  max-width: 400px;
+  width: 100%;
   max-height: 500px;
   gap: 4px;
   box-shadow: 1px 1px 10px #8a8181;
@@ -35,9 +40,10 @@
   .top{
     display: flex;
     align-items: center;
-    width: 100%;
+    width: 94%;
     height: 80px;
     gap: 10px;
+    position: relative;
     .avatar{
       width: 50px;
       height: 50px;
@@ -51,23 +57,56 @@
       justify-content: center;
       gap: 5px;
     }
+
+    .like{
+      position: absolute;
+      right: 30px;
+      width: 32px;
+      height: 32px;
+      color: rgb(197, 191, 191);
+      font-size: 32px;
+      display: flex;
+      text-align: center;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      .num{
+        font-size: 16px;
+        color: #8a8181;
+        width: 80px;
+      }
+    }
+
+    .liked{
+      color: red;
+    }
   }
 
   .title{
     color: var(--dark-color);
     font-weight: 900;
     font-size: 32px;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    padding: 0px 40px;
+    line-height: 40px;
+    height: 40px;
   }
 
   .cover{
     width: 90%;
+    max-width: 300px;
     margin-top: 20px;
-    height: 300px;
+    max-height: 300px;
+    height: 90%;
     object-fit: cover;
     border-radius: 10px;
   }
   .content{
-    padding: 8px;
+    padding: 10px 40px;
     line-height: 24px;
     height: 48px;
     overflow: hidden;

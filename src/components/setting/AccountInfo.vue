@@ -3,7 +3,9 @@ import ImgShow from '../write/ImgShow.vue';
 import { ref } from 'vue';
 const imgShow = ref(false);
 const url = ref('http://localhost:5000/images/default.webp');
+const url2 = ref('http://localhost:5000/images/default.webp');
 const file = ref<File>();
+const file2 = ref<File>();
 const URL = window.URL || window.webkitURL;
 const handleSubmit = (e: Event) => {
   e.preventDefault();
@@ -12,6 +14,10 @@ const setFile = (e: Event) => {
   file.value = (e.target as HTMLInputElement).files![0];
   url.value = URL.createObjectURL(file.value);
 }
+const setFile2 = (e: Event) => {
+  file2.value = (e.target as HTMLInputElement).files![0];
+  url2.value = URL.createObjectURL(file2.value);
+}
 
 </script>
 
@@ -19,12 +25,16 @@ const setFile = (e: Event) => {
   <div class="container">
     <div class="title">更新账户</div>
     <form @submit="handleSubmit">
-    <div class="avatar">
-        <img :src="url" @click="imgShow = true">
-        <label title="点击更换" >
-        点击更换
-          <input type="file" style="display: none;" @change="setFile">
-        </label>
+    <div class="avatar" :style="`background-image: url(${url2});`">
+      <img :src="url" @click="imgShow = true">
+      <label title="点击更换" >
+        更换头像
+        <input type="file" style="display: none;" @change="setFile">
+      </label>
+      <label class="bgEdit" title="更换个人背景" >
+        ✍️
+        <input type="file" style="display: none;" @change="setFile2">
+      </label>
       <ImgShow :src="url" v-if="imgShow" @imgClose="imgShow = false" />
      </div>
     <div class="inputItem">
@@ -57,13 +67,13 @@ const setFile = (e: Event) => {
 <style scoped lang="scss">
 .container{
   max-width: 1000px;
-  height: calc(100% - 100px);
+  height: calc(100% - 50px);
   display: flex;
   width: 90%;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 20px;
+  padding: 10px;
   .title{
     font-size: 32px;
     margin-bottom: 10px;
@@ -71,33 +81,57 @@ const setFile = (e: Event) => {
   }
   form{
     width: 100%;
+    height: 100%;
     .avatar{
       display: flex;
+      height: 160px;
+      background-image: url("@/assets/bg1.jpg");
+      background-size: cover;
       justify-content: space-between;
-      margin-bottom: 10px;
+      margin-bottom: 40px;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      border-bottom-right-radius: 20px;
+      position: relative;
+      &:hover{
+        background-blend-mode: color;
+      }
       label{
         font-size: 20px;
         display: flex;
         align-items: center;
         user-select: none;
         cursor: pointer;
+        position: absolute;
+        right: 10px;
+        top: 160px;
       }
       img{
         width: 100px;
         height: 100px;
         border-radius: 50%;
+        position: absolute;
+        transform: translateY(50%);
         transition: 0.3s ease-in-out;
         object-fit: cover;
+        align-self: flex-end;
         &:hover{
-          opacity: 0.8;
+          scale: 0.9;
         }
+      }
+      .bgEdit{
+        position: absolute;
+        right: 10px;
+        top: 5px;
+        font-size: 24px;
+        cursor: pointer;
       }
     }
     .inputItem{
-      height: 80px;
+      height: 70px;
       display: flex;
       flex-direction: column;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
       label{
         height: 50%;
         display: flex;
@@ -118,6 +152,7 @@ const setFile = (e: Event) => {
         border: none;
         border-radius: 4px;
         align-self: center;
+        margin-top: 10px;
         &:hover{
           scale: 1.02;
         }
