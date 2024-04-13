@@ -1,11 +1,48 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+import { login, register } from '@/http/users'
 const route = useRoute()
+const router = useRouter()
 const isLogin = ref<Boolean>(route.meta.isLogin as boolean)
 watch(() => route.path, (newVal) => {
   isLogin.value = newVal === '/login'
 })
+
+const email = ref<string>('')
+const password = ref<string>('')
+const name = ref<string>('')
+
+const handleSubmit = (e: Event) => {
+  e.preventDefault()
+  if(isLogin.value){
+    console.log('登录')
+    const data = {
+      email: email.value,
+      password: password.value
+    }
+    login(data).then(({data, status}) => {
+      if(status === 201 && data){
+        router.push('/home')
+      }else{
+        console.log('登录失败')
+      }
+    })
+  }else{
+    const data = {
+      email: email.value,
+      password: password.value,
+      name: name.value
+    }
+    register(data).then(({data, status}) => {
+      if(status === 201 && data){
+        router.push('/login')
+      }else{
+        console.log('注册失败')
+      }
+    })
+  }
+}
 
 </script>
 
@@ -17,26 +54,26 @@ watch(() => route.path, (newVal) => {
         <div class="formItem">
           <label class="formLabel">
             <span>邮箱:</span>
-            <input type="email" placeholder="请输入电子邮箱">
+            <input v-model="email" type="email" placeholder="请输入电子邮箱">
           </label>
         </div>
         <div class="formItem" v-if="!isLogin">
           <label class="formLabel">
             <span>用户名:</span>
-            <input type="text" placeholder="请输入用户名">
+            <input v-model="name" type="text" placeholder="请输入用户名">
           </label>
         </div>
         <div class="formItem">
           <label class="formLabel">
             <span>密码:</span>
-            <input type="password" placeholder="请输入密码">
+            <input v-model="password" type="password" placeholder="请输入密码">
           </label>
         </div>
         <div class="formItem">
-          <button>{{ isLogin ? '确认登录' : '立即注册' }}</button>
+          <button @click="handleSubmit">{{ isLogin ? '确认登录' : '立即注册' }}</button>
         </div>
-        <span class="moreInfo" v-if="isLogin">没有账号?点我去注册</span>
-        <span class="moreInfo" v-else>已有账号？点我去登录</span>
+        <span class="moreInfo" v-if="isLogin" @click="router.push('/register')">没有账号?点我去注册</span>
+        <span class="moreInfo" v-else @click="router.push('/login')">已有账号？点我去登录</span>
       </div>
     </div>
   </div>
