@@ -1,18 +1,36 @@
 <script setup lang="ts">
 import ImgShow from '../write/ImgShow.vue';
 import { ref } from 'vue';
+import { User } from '@/types/user';
+import { useUserStore } from '@/store/user';
+import {uploadFile} from '@/http/upload'
+const {userInfo} = useUserStore();
 const imgShow = ref(false);
-const url = ref('http://localhost:5000/images/default.webp');
-const url2 = ref('http://localhost:5000/images/default.webp');
+const url = ref('http://localhost:5173/default.webp');
+const url2 = ref('http://localhost:5173/bg3.jpeg');
 const file = ref<File>();
 const file2 = ref<File>();
 const URL = window.URL || window.webkitURL;
+const formData = ref<Partial<User>>({...userInfo})
 const handleSubmit = (e: Event) => {
   e.preventDefault();
+  console.log(formData.value);
 }
 const setFile = (e: Event) => {
   file.value = (e.target as HTMLInputElement).files![0];
   url.value = URL.createObjectURL(file.value);
+  const formData = new FormData();
+  formData.append('file', file.value);
+  console.log(formData);
+  uploadFile(formData).then((res: any) => {
+    console.log(res);
+  })
+  // 释放 URL.createObjectURL() 创建的 URL 对象
+  // 发送请求
+  // ...
+  // 请求完成后，释放 URL.createObjectURL() 创建的 URL 对象
+  // URL.revokeObjectURL(url.value);
+  // formData.value.avatar = url.value;
 }
 const setFile2 = (e: Event) => {
   file2.value = (e.target as HTMLInputElement).files![0];
@@ -40,22 +58,22 @@ const setFile2 = (e: Event) => {
     <div class="inputItem">
       <label>用户名
       </label>
-      <input type="text" placeholder="请输入用户名">
+      <input type="text" v-model="formData.name" placeholder="请输入用户名">
     </div>
     <div class="inputItem">
       <label>邮箱
       </label>
-      <input type="text" placeholder="请输入邮箱">
+      <input type="text" v-model="formData.email" placeholder="请输入邮箱">
     </div>
     <div class="inputItem">
       <label>密码
       </label>
-      <input type="password" placeholder="请输入密码">
+      <input type="password" v-model="formData.password" placeholder="请输入密码">
     </div>
     <div class="inputItem">
       <label>个性签名
       </label>
-      <input type="text" placeholder="请输入个性签名">
+      <input type="text" v-model="formData.desc" placeholder="请输入个性签名">
     </div>
     <div class="inputItem">
       <button type="submit">确认修改</button>

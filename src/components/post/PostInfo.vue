@@ -9,7 +9,7 @@ const emjShow = ref(false)
 const showPopup = ref(false)
 const isEdit = ref(false)
 const isImgShow = ref(false)
-const url = ref('http://localhost:5000/images/default.webp');
+const url = ref('http://localhost:5173/bg3.jpeg');
 const file = ref<File>();
 const URL = window.URL || window.webkitURL;
 const setFile = (e: Event) => {

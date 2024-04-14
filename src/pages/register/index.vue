@@ -2,6 +2,8 @@
 import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router';
 import { login, register } from '@/http/users'
+import { useUserStore } from '@/store/user';
+const {setUserInfo, setIsLogin} = useUserStore()
 const route = useRoute()
 const router = useRouter()
 const isLogin = ref<Boolean>(route.meta.isLogin as boolean)
@@ -16,16 +18,16 @@ const name = ref<string>('')
 const handleSubmit = (e: Event) => {
   e.preventDefault()
   if(isLogin.value){
-    console.log('登录')
     const data = {
       email: email.value,
       password: password.value
     }
     login(data).then(({data, status}) => {
       if(status === 201 && data){
+        setUserInfo(data)
+        setIsLogin(true)
         router.push('/home')
       }else{
-        console.log('登录失败')
       }
     })
   }else{

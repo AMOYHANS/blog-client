@@ -1,5 +1,6 @@
 import * as VueRouter from 'vue-router'
 import { RouteRecordRaw } from 'vue-router'
+import { useUserStore } from '@/store/user'
 
 const constantRoutes: RouteRecordRaw[] = [
   {
@@ -37,6 +38,13 @@ const constantRoutes: RouteRecordRaw[] = [
 const router = VueRouter.createRouter({
   history: VueRouter.createWebHashHistory(),
   routes: constantRoutes
+})
+
+router.beforeEach((to, from) => {
+const {isLogin} = useUserStore()
+  if(!isLogin && to.path !== '/login' && to.path !== '/register'){
+    return '/login'
+  }
 })
 
 export default router

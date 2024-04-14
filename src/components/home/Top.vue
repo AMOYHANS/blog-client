@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
+import {useUserStore} from '@/store/user'
+
+const {userInfo} = useUserStore()
 const router = useRouter();
 </script>
 
@@ -10,8 +13,8 @@ const router = useRouter();
       <hr class="hr"/>
       <img class="avatar" src="@/assets/bg1.jpg" @click="router.push('/about')">
       <div class="txt">
-        <span class="name">姓名</span>
-        <span class="desc">个性签名</span>
+        <span class="name">{{userInfo.name}}</span>
+        <span class="desc">{{userInfo.desc}}</span>
       </div>
     </div>
   </div>
