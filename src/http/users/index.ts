@@ -8,3 +8,10 @@ export const login = (data: Partial<User>) => {
 export const register = (data: Partial<User>) => {
   return request.post("/users/signup", data);
 }
+
+export const updateUser = (id: number, data: Partial<User>) => {
+  return request.patch(`/users/${id}`, data);
+}
+export const getUser = (id: number) => {
+  return request.get(`/users/${id}`);
+}

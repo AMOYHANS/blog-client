@@ -1,22 +1,53 @@
 <script setup lang="ts">
+import {onMounted} from 'vue'
+import {getUser} from '@/http/users'
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useUserStore } from '@/store/user';
+import dayjs from 'dayjs'
+
+const {userId} = useUserStore()
+const router = useRouter()
+const avatar = ref('')
+const name = ref('')
+const props = defineProps({
+  post: {
+    type: Object,
+    required: true
+  }
+})
+
+onMounted(async () => {
+  const res = await getUser(props.post.authorId)
+  avatar.value = res.data.avatar ? res.data.avatar : import.meta.env.VITE_DEFAULT_AVATAR
+  name.value = res.data.name
+})
+
+const naviToUserPage = () => {
+  if(props.post.authorId === userId){
+    router.push('/home')
+  }else{
+    router.push(`/user/${props.post.authorId}`)
+  }
+}
 </script>
 
 <template>
   <div class="container">
     <div class="top">
-      <img class="avatar" src="@/assets/bg1.jpg" alt="">
+      <img class="avatar" :src="avatar" alt="" @click="naviToUserPage">
       <div class="right">
-        <div class="name">项目</div>
-        <div class="desc">1小时前</div>
+        <div class="name">{{name}}</div>
+        <div class="desc">{{ dayjs(post.createdAt).format('MM-DD HH:mm') }}</div>
       </div>
       <div class="like" :class="'liked'">
         ❤
         <div class="num">100人赞过</div>
       </div>
     </div>
-    <img class="cover" src="@/assets/default.webp" alt="">
-    <span class="title">发多少江南世家还是风格的 放缩方便</span>
-    <span class="content">fsd 房贷首付是否是法国是法国给士大夫大师傅吧发啊hi腐坏发货ua房贷首付是否是法国是法国给士大夫大师傅吧发啊hi腐坏发货ua</span>
+    <img class="cover" :src="post.pic" alt="" v-if="post.pic">
+    <span class="title" @click="router.push(`/post/${post.id}`)">{{ post.title }}</span>
+    <span class="content">{{ post.content }}</span>
   </div>
 </template>
 
@@ -34,7 +65,6 @@
   border-radius: 5px;
   margin: 15px;
   padding: 0;
-  cursor: pointer;
   background-color: var(--light-color);
 
   .top{
@@ -49,6 +79,7 @@
       height: 50px;
       border-radius: 50%;
       margin-left: 10px;
+      object-fit: cover;
     }
 
     .right{
@@ -94,6 +125,7 @@
     padding: 0px 40px;
     line-height: 40px;
     height: 40px;
+    cursor: pointer;
   }
 
   .cover{

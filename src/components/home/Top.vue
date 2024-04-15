@@ -1,20 +1,40 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
-import {useUserStore} from '@/store/user'
+import { onBeforeMount, ref } from 'vue';
+import { getUser } from '@/http/users';
+import { User } from '@/types/user';
+import { useUserStore } from '@/store/user';
+import { filterNullProps } from '@/utils';
 
-const {userInfo} = useUserStore()
+const userStore = useUserStore()
+const props = defineProps({
+  userId: {
+    type: Number,
+    default: 0
+  }
+})
+
+const userInfo = ref<Partial<User>>(userStore.userInfo)
+  console.log(userInfo.value)
+
+onBeforeMount(async () => {
+  const res = await getUser(props.userId as number)
+  userInfo.value = {...userInfo.value, ...filterNullProps(res.data)}
+  console.log(userInfo.value)
+})
+
 const router = useRouter();
 </script>
 
 <template>
   <div class="container">
-    <img class="homeBg" src="@/assets/bg2.webp" alt="">
+    <img class="homeBg" :src="(userInfo.bgImg as string)" alt="">
     <div class="divide">
       <hr class="hr"/>
-      <img class="avatar" src="@/assets/bg1.jpg" @click="router.push('/about')">
+      <img class="avatar" :src="(userInfo?.avatar as string)" @click="router.push('/about')">
       <div class="txt">
-        <span class="name">{{userInfo.name}}</span>
-        <span class="desc">{{userInfo.desc}}</span>
+        <span class="name">{{userInfo?.name}}</span>
+        <span class="desc">{{userInfo?.desc}}</span>
       </div>
     </div>
   </div>

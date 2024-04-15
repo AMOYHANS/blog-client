@@ -1,17 +1,50 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import Popup from '@/components/Popup.vue'
 import Emoji from '@/components/write/Emoji.vue';
 import ImgShow from '@/components/write/ImgShow.vue';
-const text = ref('fdsfsfsdfsd')
-const title = ref('实例标题')
+import { usePostStore } from '@/store/post';
+import { onBeforeRouteUpdate } from 'vue-router';
+import {getPost} from '@/http/posts';
+import { deletePost, updatepost } from '@/http/posts';
+import { useRouter, useRoute } from 'vue-router';
+import { uploadFile } from '@/http/upload';
+import dayjs from 'dayjs';
+import { getUser } from '@/http/users';
+
+const router = useRouter()
+const route = useRoute()
+const {currentPost, setWritePost} = usePostStore()
+const text = ref(currentPost.content as string)
+const title = ref(currentPost.title)
 const emjShow = ref(false)
 const showPopup = ref(false)
 const isEdit = ref(false)
 const isImgShow = ref(false)
-const url = ref('http://localhost:5173/bg3.jpeg');
+const url = ref(currentPost.pic);
 const file = ref<File>();
 const URL = window.URL || window.webkitURL;
+const userInfo = ref()
+
+onMounted(async () => {
+  const res = await getPost(parseInt(route.params.id as string))
+  const userRes = await getUser(res.data.authorId)
+  userInfo.value = userRes.data
+  setWritePost(res.data)
+  text.value = res.data.content as string
+  title.value = res.data.title
+  url.value = res.data.pic ? res.data.pic : null
+})
+
+onBeforeRouteUpdate(async (to, _, next) => {
+  const res = await getPost(parseInt(to.params.id as string))
+  setWritePost(res.data)
+  text.value = res.data.content as string
+  title.value = res.data.title
+  url.value = res.data.pic ? res.data.pic : null
+  next()
+})
+
 const setFile = (e: Event) => {
   file.value = (e.target as HTMLInputElement).files![0];
   url.value = URL.createObjectURL(file.value);
@@ -24,19 +57,47 @@ const handleEmjClick = (e: EventTarget) => {
   text.value += (e as HTMLElement).innerText;
   emjShow.value = false
 }
+const handleDeleteConfirm = async () => {
+  showPopup.value = false
+  const res = await deletePost(currentPost.id as number)
+  if(res.status === 200){
+    router.push('/home')
+  }
+}
+
+const handleSubmit = async () => {
+  if(file.value){
+    const formData = new FormData()
+    formData.append('file', file.value)
+    const res = await uploadFile(formData)
+    if(res.status === 201){
+      url.value = import.meta.env.VITE_PUBLIC_FOLDER + res.data
+    }
+  }
+  const post = {
+    title: title.value,
+    content: text.value,
+    pic: url.value
+  }
+  const res = await updatepost(currentPost.id as number, post)
+  if(res.status === 200){
+    alert('更新成功')
+    isEdit.value = false
+  }
+}
 </script>
 
 <template>
   <div class="container">
-    <img :src="url" alt="" @click="isImgShow = true">
-    <ImgShow :src="url" v-if="isImgShow" @img-close="isImgShow = false"/>
+    <img :src="url" alt="" @click="isImgShow = true" v-if="url">
+    <ImgShow :src="url" v-if="url && isImgShow" @img-close="isImgShow = false"/>
     <div class="title">
       <input type="text" v-if="isEdit" v-model="title">
       <span v-else>{{ title }}</span>
       <div class="edit">
         <span @click="isEdit = !isEdit" title="编辑">✍</span>
         <span @click="handleDelete" title="删除">🗑️</span>
-        <Popup v-if="showPopup" :width="'200px'" :content="'是否删除？'" @confirm="showPopup = false" @cancel="showPopup = false"/>
+        <Popup v-if="showPopup" :width="'200px'" :content="'是否删除？'" @confirm="handleDeleteConfirm" @cancel="showPopup = false"/>
       </div>
     </div>
     <div class="writer">
@@ -47,9 +108,9 @@ const handleEmjClick = (e: EventTarget) => {
         </label>
         <Emoji v-if="emjShow" @emoji-click="handleEmjClick"/>
       </div>
-      <span>作者: cai</span>
-      <span>更新时间: xxx</span>
-      <button v-if="isEdit">提交</button>
+      <span><b>作者: </b>{{ userInfo?.name }}</span>
+      <span><b>发布时间: </b>{{ dayjs(currentPost.createdAt).format('YYYY-MM-DD HH:mm:ss') }}</span>
+      <button v-if="isEdit" @click="handleSubmit">提交</button>
     </div>
     <textarea :readonly="!isEdit" v-model="text"></textarea>
   </div>

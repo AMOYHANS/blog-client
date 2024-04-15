@@ -1,15 +1,15 @@
 import axios from 'axios';
 
 const request = axios.create({
-  baseURL: 'http://localhost:3000/api',
-  timeout: 5000,
+  baseURL: import.meta.env.VITE_PUBLIC_FOLDER + 'api',
+  timeout: 50000,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 export const requestFile = axios.create({
-  baseURL: 'http://localhost:3000/api',
-  timeout: 5000,
+  baseURL: import.meta.env.VITE_PUBLIC_FOLDER + 'api',
+  timeout: 50000,
   headers: {
     'Content-Type': 'multipart/form-data',
   },

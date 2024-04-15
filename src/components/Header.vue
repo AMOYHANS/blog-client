@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
+import { useUserStore } from '@/store/user';
+const {userInfo, setIsLogin} = useUserStore()
 const router = useRouter();
+const handleOut = () => {
+  setIsLogin(false)
+  localStorage.removeItem('user')
+  localStorage.removeItem('post')
+  router.push('/login')
+}
 </script>
 
 <template>
@@ -13,15 +21,13 @@ const router = useRouter();
     <div class="mid">
       <span class="midItem"  @click="router.push('/home')">首页</span>
       <span class="midItem" @click="router.push('/post')">关于</span>
-      <span class="midItem">联系</span>
+      <span class="midItem" @click="router.push('/about')">好友</span>
       <span class="midItem" @click="router.push('/write')">创作</span>
-      <span class="midItem">退出</span>
+      <span class="midItem" @click="handleOut">退出</span>
     </div>
     <div class="right">
-      <!-- <span @click="router.push('/login')">登录</span>
-      <span @click="router.push('/register')">注册</span> -->
       <div class="avartarBg" @click="router.push('/setting')">
-        <img src="../assets/default.webp" class="avatar">
+        <img :src="(userInfo.avatar as string)" class="avatar">
       </div>
     </div>
   </div>
@@ -108,6 +114,9 @@ const router = useRouter();
     .avartarBg{
       position: absolute;
       right: 20px;
+      img{
+        object-fit: cover;
+      }
     }
     .avatar{
       height: 40px;

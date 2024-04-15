@@ -2,39 +2,29 @@
 import Top from '@/components/home/Top.vue'
 import Post from '@/components/home/Post.vue'
 import {ref} from 'vue'
-import {useUserStore} from '@/store/user'
-import {getAllPosts, getAllPostsWithUserId} from '@/http/posts'
+import {getAllPostsWithUserId} from '@/http/posts'
 import { onMounted } from 'vue'
 import { Post as PostType } from '@/types/post'
+import { useRoute } from 'vue-router'
 
-const {userId} = useUserStore()
+const route = useRoute()
+const userId = route.params.id as string
+
 const postsData = ref<PostType[]>([])
 
 onMounted(async () => {
-  const res = await getAllPosts()
-  
+  const res = await getAllPostsWithUserId(+userId)
   postsData.value = res.data
 })
 
-const isPublic = ref(true)
-const handlePublic = async () => {
-  isPublic.value = true
-  const res = await getAllPosts()
-  postsData.value = res.data.sort((a:any, b:any) => a.updatedAt - b.updatedAt)
-}
-const hanldeMine  = async () => {
-  isPublic.value = false
-  const res = await getAllPostsWithUserId(userId)
-  postsData.value = res.data.sort((b:any, a:any) => a.updatedAt - b.updatedAt)
-}
+
 </script>
 
 <template>
   <div class="container">
-    <Top :user-id="userId"/>
+    <Top :user-id="+userId"/>
     <div class="tab">
-      <span class="public" :class="isPublic ? 'enabled' : ''" @click="handlePublic">广场</span> |
-      <span class="mine" :class="!isPublic ? 'enabled' : ''" @click="hanldeMine">我的</span>
+      <span class="mine" :class="'enabled'">他的帖子</span>
     </div>
     <div class="main">
       <Post v-for="item in postsData" :key="item.id" :post="item" />

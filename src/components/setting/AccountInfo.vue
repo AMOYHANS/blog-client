@@ -4,37 +4,57 @@ import { ref } from 'vue';
 import { User } from '@/types/user';
 import { useUserStore } from '@/store/user';
 import {uploadFile} from '@/http/upload'
-const {userInfo} = useUserStore();
+import {filterNullProps} from '@/utils'
+import {updateUser} from '@/http/users';
+import { useRouter } from 'vue-router';
+const router = useRouter();
+const {userInfo, userId, setUserInfo} = useUserStore();
 const imgShow = ref(false);
-const url = ref('http://localhost:5173/default.webp');
-const url2 = ref('http://localhost:5173/bg3.jpeg');
+const url = ref(userInfo.avatar as string);
+const url2 = ref(userInfo.bgImg as string);
 const file = ref<File>();
 const file2 = ref<File>();
 const URL = window.URL || window.webkitURL;
-const formData = ref<Partial<User>>({...userInfo})
-const handleSubmit = (e: Event) => {
+const form = ref<Partial<User>>({...userInfo})
+const promiseArray = ref<Array<Promise<void>>>([]) 
+
+const handleSubmit = async (e: Event) => {
   e.preventDefault();
-  console.log(formData.value);
+  await Promise.all(promiseArray.value)
+  const newUserInfo = await updateUser(userId as number,filterNullProps(form.value));
+  if(newUserInfo.status == 200){
+    setUserInfo(newUserInfo.data);
+    router.push('/home')
+  }else{
+    alert('更新失败')
+  }
 }
 const setFile = (e: Event) => {
   file.value = (e.target as HTMLInputElement).files![0];
   url.value = URL.createObjectURL(file.value);
   const formData = new FormData();
   formData.append('file', file.value);
-  console.log(formData);
-  uploadFile(formData).then((res: any) => {
-    console.log(res);
+  const p1 = uploadFile(formData).then((res: any) => {
+    url.value = import.meta.env.VITE_PUBLIC_FOLDER + res.data
+    form.value.avatar = url.value;
+    // 请求完成后，释放 URL.createObjectURL() 创建的 URL 对象
+    URL.revokeObjectURL(url.value);
   })
-  // 释放 URL.createObjectURL() 创建的 URL 对象
-  // 发送请求
-  // ...
-  // 请求完成后，释放 URL.createObjectURL() 创建的 URL 对象
-  // URL.revokeObjectURL(url.value);
-  // formData.value.avatar = url.value;
+  promiseArray.value.push(p1)
 }
+
 const setFile2 = (e: Event) => {
   file2.value = (e.target as HTMLInputElement).files![0];
   url2.value = URL.createObjectURL(file2.value);
+  const formData = new FormData();
+  formData.append('file', file2.value);
+  const p2 = uploadFile(formData).then((res: any) => {
+    url2.value = import.meta.env.VITE_PUBLIC_FOLDER + res.data
+    form.value.bgImg = url2.value;
+    // 请求完成后，释放 URL.createObjectURL() 创建的 URL 对象
+    URL.revokeObjectURL(url2.value);
+  })
+  promiseArray.value.push(p2)
 }
 
 </script>
@@ -58,22 +78,22 @@ const setFile2 = (e: Event) => {
     <div class="inputItem">
       <label>用户名
       </label>
-      <input type="text" v-model="formData.name" placeholder="请输入用户名">
+      <input type="text" v-model="form.name" placeholder="请输入用户名">
     </div>
     <div class="inputItem">
       <label>邮箱
       </label>
-      <input type="text" v-model="formData.email" placeholder="请输入邮箱">
+      <input type="text" v-model="form.email" placeholder="请输入邮箱" readonly>
     </div>
     <div class="inputItem">
       <label>密码
       </label>
-      <input type="password" v-model="formData.password" placeholder="请输入密码">
+      <input type="password" v-model="form.password" placeholder="请输入密码">
     </div>
     <div class="inputItem">
       <label>个性签名
       </label>
-      <input type="text" v-model="formData.desc" placeholder="请输入个性签名">
+      <input type="text" v-model="form.desc" placeholder="请输入个性签名">
     </div>
     <div class="inputItem">
       <button type="submit">确认修改</button>

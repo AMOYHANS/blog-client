@@ -2,10 +2,21 @@
 import { ref } from 'vue';
 import Emoji from '@/components/write/Emoji.vue';
 import ImgShow from '@/components/write/ImgShow.vue';
+import {usePostStore} from '@/store/post';
+import { useUserStore } from '@/store/user';
+import { uploadFile } from '@/http/upload';
+import {createPost} from '@/http/posts';
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
+const {setWritePost} = usePostStore();
+const {userId} = useUserStore();
+
 const file = ref<File>();
 const URL = window.URL || window.webkitURL;
 const isEmjShow = ref<Boolean>(false);
-const textContent = ref<string>('dd')
+const title = ref<string>('');
+const textContent = ref<string>('')
 const emjRef = ref<HTMLElement>()
 const imgShow = ref(false)
 
@@ -20,6 +31,34 @@ const handleEmjClick = (e: EventTarget) => {
 const handleTopClick = (e: Event) => {
   if(e.target !== emjRef.value)
   isEmjShow.value = false;
+}
+
+const handlePostSubmit = async () => {
+  if(file.value) {
+    const formData = new FormData();
+    formData.append('file', file.value!);
+    const res = await uploadFile(formData);
+    const newPost = {
+      title: title.value,
+      content: textContent.value,
+      pic: import.meta.env.VITE_PUBLIC_FOLDER  + res.data,
+      authorId: userId,
+    }
+    const res2 = await createPost(newPost)
+    setWritePost(res2.data);
+    alert('上传成功')
+    router.push('/post/' + res2.data.id)
+  }else{
+    const newPost = {
+      title: title.value,
+      content: textContent.value,
+      authorId: userId,
+    }
+    const res2 = await createPost(newPost)
+    setWritePost(res2.data);
+    alert('上传成功')
+    router.push('/post/' + res2.data.id)
+  }
 }
 </script>
 
@@ -41,8 +80,8 @@ const handleTopClick = (e: Event) => {
         </label>
       </div>
       <div class="submit">
-        <input type="" placeholder="起个标题吧..." autofocus>
-        <button>提交</button>
+        <input type="" placeholder="起个标题吧..." autofocus v-model="title">
+        <button @click="handlePostSubmit">提交</button>
       </div>
     </div>
     <textarea v-model="textContent" placeholder="写点什么..." id="" cols="30" rows="10" @change=""/>
