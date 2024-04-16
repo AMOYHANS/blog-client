@@ -69,7 +69,7 @@ const router = useRouter();
   
     .avatar{
       width: 200px;
-      min-height: 200px;
+      height: 200px;
       position: relative;
       object-fit: cover;
       border-radius: 50%;
