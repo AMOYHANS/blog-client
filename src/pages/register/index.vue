@@ -40,7 +40,7 @@ const handleSubmit = (e: Event) => {
       if(status === 201 && data){
         router.push('/login')
       }else{
-        console.log('注册失败')
+        alert('注册失败')
       }
     })
   }

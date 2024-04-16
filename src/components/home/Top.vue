@@ -15,12 +15,10 @@ const props = defineProps({
 })
 
 const userInfo = ref<Partial<User>>(userStore.userInfo)
-  console.log(userInfo.value)
 
 onBeforeMount(async () => {
   const res = await getUser(props.userId as number)
   userInfo.value = {...userInfo.value, ...filterNullProps(res.data)}
-  console.log(userInfo.value)
 })
 
 const router = useRouter();
@@ -34,7 +32,7 @@ const router = useRouter();
       <img class="avatar" :src="(userInfo?.avatar as string)" @click="router.push('/about')">
       <div class="txt">
         <span class="name">{{userInfo?.name}}</span>
-        <span class="desc">{{userInfo?.desc}}</span>
+        <span class="desc">{{userInfo.desc ? userInfo.desc : '该用户没有个性签名'}}</span>
       </div>
     </div>
   </div>

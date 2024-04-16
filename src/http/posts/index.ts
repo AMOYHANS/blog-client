@@ -17,7 +17,11 @@ export const getAllPostsWithUserId = (userId: number) => {
   return request.get(`/posts?userId=${userId}`);
 }
 
-export const updatepost = (postId: number, data: Partial<Post>) => {
+export const likeOrDislikeAPost = (postId: number, data: {userId: number}) => {
+  return request.post(`/posts/like/${postId}`, data);
+}
+
+export const updatepost  = (postId: number, data: Partial<Post>) => {
   return request.patch(`/posts/${postId}`, data);
 }
 

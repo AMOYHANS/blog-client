@@ -36,6 +36,8 @@ const constantRoutes: RouteRecordRaw[] = [
   {
     path: '/about', component: () => import('@/pages/about/index.vue'),
   },
+  { path: '/:pathMatch(.*)*', component: () =>  import('@/pages/404/index.vue'), 
+  },
 ]
 
 const router = VueRouter.createRouter({
@@ -43,7 +45,7 @@ const router = VueRouter.createRouter({
   routes: constantRoutes
 })
 
-router.beforeEach((to, from) => {
+router.beforeEach((to, _) => {
 const {isLogin} = useUserStore()
   if(!isLogin && to.path !== '/login' && to.path !== '/register'){
     return '/login'

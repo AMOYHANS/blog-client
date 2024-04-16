@@ -1,26 +1,30 @@
 <script setup lang="ts">
 import {onMounted} from 'vue'
-import {getUser} from '@/http/users'
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/store/user';
 import dayjs from 'dayjs'
+import {likeOrDislikeAPost} from '@/http/posts'
 
 const {userId} = useUserStore()
 const router = useRouter()
-const avatar = ref('')
-const name = ref('')
 const props = defineProps({
   post: {
     type: Object,
     required: true
   }
 })
+const likes = ref(props.post.likeUsers.length)
 
-onMounted(async () => {
-  const res = await getUser(props.post.authorId)
-  avatar.value = res.data.avatar ? res.data.avatar : import.meta.env.VITE_DEFAULT_AVATAR
-  name.value = res.data.name
+const isLiked = ref<boolean>(false)
+
+onMounted(() => {
+  for(let i = 0; i < props.post.likeUsers.length; i++){
+    if(props.post.likeUsers[i].likerId === userId){
+      isLiked.value = true
+      break
+    }
+  }
 })
 
 const naviToUserPage = () => {
@@ -30,19 +34,35 @@ const naviToUserPage = () => {
     router.push(`/user/${props.post.authorId}`)
   }
 }
+
+const handleLikePost = () => {
+  likeOrDislikeAPost(props.post.id, {userId}).then(res => {
+    console.log(res)
+    if(res.status === 201){
+      isLiked.value = !isLiked.value
+      if(isLiked.value){
+        likes.value += 1
+      }else{
+        likes.value -= 1
+      }
+    }
+  })
+}
+const defaultAvatar = import.meta.env.VITE_DEFAULT_AVATAR
 </script>
 
 <template>
   <div class="container">
     <div class="top">
-      <img class="avatar" :src="avatar" alt="" @click="naviToUserPage">
+      <img class="avatar" :src="post.author.avatar ? post.author.avatar : defaultAvatar" alt="" @click="naviToUserPage">
       <div class="right">
-        <div class="name">{{name}}</div>
+        <div class="name">{{post.author.name}}</div>
         <div class="desc">{{ dayjs(post.createdAt).format('MM-DD HH:mm') }}</div>
       </div>
-      <div class="like" :class="'liked'">
+
+      <div class="like" :class="isLiked ? 'liked' : ''" @click="handleLikePost">
         ❤
-        <div class="num">100人赞过</div>
+        <div class="num">{{ likes }}人赞过</div>
       </div>
     </div>
     <img class="cover" :src="post.pic" alt="" v-if="post.pic">
@@ -101,6 +121,11 @@ const naviToUserPage = () => {
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      user-select: none;
+      &:hover{
+        cursor: pointer;
+        scale: 1.02;
+      }
       .num{
         font-size: 16px;
         color: #8a8181;

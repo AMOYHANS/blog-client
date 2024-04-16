@@ -38,6 +38,7 @@ const hanldeMine  = async () => {
     </div>
     <div class="main">
       <Post v-for="item in postsData" :key="item.id" :post="item" />
+      <div class="empty" v-if="postsData.length === 0">空空如也，快去创作吧！</div>
     </div>
   </div>
 </template>
@@ -57,6 +58,14 @@ const hanldeMine  = async () => {
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      .empty{
+        width: 100%;
+        height: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px
+      }
     }
     .tab{
       font-size: 20px;

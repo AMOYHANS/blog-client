@@ -5,6 +5,7 @@ import Emoji from '@/components/write/Emoji.vue';
 import ImgShow from '@/components/write/ImgShow.vue';
 import { usePostStore } from '@/store/post';
 import { onBeforeRouteUpdate } from 'vue-router';
+import { useUserStore } from '@/store/user';
 import {getPost} from '@/http/posts';
 import { deletePost, updatepost } from '@/http/posts';
 import { useRouter, useRoute } from 'vue-router';
@@ -15,6 +16,7 @@ import { getUser } from '@/http/users';
 const router = useRouter()
 const route = useRoute()
 const {currentPost, setWritePost} = usePostStore()
+const {userId} = useUserStore()
 const text = ref(currentPost.content as string)
 const title = ref(currentPost.title)
 const emjShow = ref(false)
@@ -94,7 +96,7 @@ const handleSubmit = async () => {
     <div class="title">
       <input type="text" v-if="isEdit" v-model="title">
       <span v-else>{{ title }}</span>
-      <div class="edit">
+      <div class="edit" v-if="userId === currentPost.authorId">
         <span @click="isEdit = !isEdit" title="编辑">✍</span>
         <span @click="handleDelete" title="删除">🗑️</span>
         <Popup v-if="showPopup" :width="'200px'" :content="'是否删除？'" @confirm="handleDeleteConfirm" @cancel="showPopup = false"/>

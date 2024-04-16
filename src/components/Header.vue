@@ -20,7 +20,6 @@ const handleOut = () => {
     </div>
     <div class="mid">
       <span class="midItem"  @click="router.push('/home')">首页</span>
-      <span class="midItem" @click="router.push('/post')">关于</span>
       <span class="midItem" @click="router.push('/about')">好友</span>
       <span class="midItem" @click="router.push('/write')">创作</span>
       <span class="midItem" @click="handleOut">退出</span>
@@ -87,7 +86,6 @@ const handleOut = () => {
     color: #333;
     font-size: 20px;
     &:hover{
-        color: var(--dark-color);
         font-size: 25px;
     }
 }

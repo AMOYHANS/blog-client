@@ -5,7 +5,7 @@ import {ref} from 'vue'
 import {getAllPostsWithUserId} from '@/http/posts'
 import { onMounted } from 'vue'
 import { Post as PostType } from '@/types/post'
-import { useRoute } from 'vue-router'
+import { useRoute } from 'vue-router' 
 
 const route = useRoute()
 const userId = route.params.id as string
@@ -28,6 +28,7 @@ onMounted(async () => {
     </div>
     <div class="main">
       <Post v-for="item in postsData" :key="item.id" :post="item" />
+      <div class="empty" v-if="postsData.length === 0">他什么也没留下</div>
     </div>
   </div>
 </template>
@@ -47,6 +48,11 @@ onMounted(async () => {
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      .empty{
+        font-size: 20px;
+        color: var(--dark-color);
+        padding: 20px;
+      }
     }
     .tab{
       font-size: 20px;
