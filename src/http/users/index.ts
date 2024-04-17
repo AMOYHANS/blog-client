@@ -10,7 +10,7 @@ export const register = (data: Partial<User>) => {
 }
 
 export const updateUser = (id: number, data: Partial<User>) => {
-  return request.patch(`/users/${id}`, data);
+  return request.put(`/users/${id}`, data);
 }
 export const getUser = (id: number) => {
   return request.get(`/users/${id}`);

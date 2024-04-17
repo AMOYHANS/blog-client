@@ -41,7 +41,7 @@ const handlePostSubmit = async () => {
     const newPost = {
       title: title.value,
       content: textContent.value,
-      pic: import.meta.env.VITE_PUBLIC_FOLDER  + res.data,
+      pic: import.meta.env.VITE_API_URL  + res.data,
       authorId: userId,
     }
     const res2 = await createPost(newPost)

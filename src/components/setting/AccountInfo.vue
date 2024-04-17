@@ -35,7 +35,7 @@ const setFile = (e: Event) => {
   const formData = new FormData();
   formData.append('file', file.value);
   const p1 = uploadFile(formData).then((res: any) => {
-    url.value = import.meta.env.VITE_PUBLIC_FOLDER + res.data
+    url.value = import.meta.env.VITE_API_URL + res.data
     form.value.avatar = url.value;
     // 请求完成后，释放 URL.createObjectURL() 创建的 URL 对象
     URL.revokeObjectURL(url.value);
@@ -49,7 +49,7 @@ const setFile2 = (e: Event) => {
   const formData = new FormData();
   formData.append('file', file2.value);
   const p2 = uploadFile(formData).then((res: any) => {
-    url2.value = import.meta.env.VITE_PUBLIC_FOLDER + res.data
+    url2.value = import.meta.env.VITE_API_URL + res.data
     form.value.bgImg = url2.value;
     // 请求完成后，释放 URL.createObjectURL() 创建的 URL 对象
     URL.revokeObjectURL(url2.value);

@@ -22,7 +22,7 @@ export const likeOrDislikeAPost = (postId: number, data: {userId: number}) => {
 }
 
 export const updatepost  = (postId: number, data: Partial<Post>) => {
-  return request.patch(`/posts/${postId}`, data);
+  return request.put(`/posts/${postId}`, data);
 }
 
 export const deletePost = (postId: number) => {

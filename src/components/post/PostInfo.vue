@@ -73,7 +73,7 @@ const handleSubmit = async () => {
     formData.append('file', file.value)
     const res = await uploadFile(formData)
     if(res.status === 201){
-      url.value = import.meta.env.VITE_PUBLIC_FOLDER + res.data
+      url.value = import.meta.env.VITE_API_URL + res.data
     }
   }
   const post = {
