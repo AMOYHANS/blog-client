@@ -37,7 +37,6 @@ const naviToUserPage = () => {
 
 const handleLikePost = () => {
   likeOrDislikeAPost(props.post.id, {userId}).then(res => {
-    console.log(res)
     if(res.status === 201){
       isLiked.value = !isLiked.value
       if(isLiked.value){

@@ -9,6 +9,7 @@ const handleOut = () => {
   localStorage.removeItem('post')
   router.push('/login')
 }
+const defaultAvatar = import.meta.env.VITE_DEFAULT_AVATAR
 </script>
 
 <template>
@@ -20,13 +21,13 @@ const handleOut = () => {
     </div>
     <div class="mid">
       <span class="midItem"  @click="router.push('/home')">首页</span>
-      <span class="midItem" @click="router.push('/about')">好友</span>
+      <!-- <span class="midItem" @click="router.push('/about')">好友</span> -->
       <span class="midItem" @click="router.push('/write')">创作</span>
       <span class="midItem" @click="handleOut">退出</span>
     </div>
     <div class="right">
       <div class="avartarBg" @click="router.push('/setting')">
-        <img :src="(userInfo.avatar as string)" class="avatar">
+        <img :src="(userInfo.avatar ? userInfo.avatar : defaultAvatar)" class="avatar">
       </div>
     </div>
   </div>
