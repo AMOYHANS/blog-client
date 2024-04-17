@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/store/user';
-const {userInfo, setIsLogin} = useUserStore()
+import { storeToRefs } from 'pinia';
+const { setIsLogin} = useUserStore()
+const { userInfo } = storeToRefs(useUserStore())
 const router = useRouter();
 const handleOut = () => {
   setIsLogin(false)

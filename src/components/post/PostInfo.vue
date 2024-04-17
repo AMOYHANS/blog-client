@@ -103,13 +103,13 @@ const handleSubmit = async () => {
       </div>
     </div>
     <div class="writer">
-      <div class="emj" v-show="isEdit">
+      <!-- <div class="emj" v-show="isEdit">
         <span @click="emjShow=!emjShow">😉</span>
         <label>📸
           <input type="file" @change="setFile" style="display: none;">
         </label>
         <Emoji v-if="emjShow" @emoji-click="handleEmjClick"/>
-      </div>
+      </div> -->
       <span><b>作者: </b>{{ userInfo?.name }}</span>
       <span><b>发布时间: </b>{{ dayjs(currentPost.createdAt).format('YYYY-MM-DD HH:mm:ss') }}</span>
       <button v-if="isEdit" @click="handleSubmit">提交</button>
@@ -206,5 +206,24 @@ const handleSubmit = async () => {
     resize: none;
     font-size: 16px;
   }
+}
+
+@media screen and (max-width: 768px) {
+  .writer{
+    display: flex;
+    flex-direction: column;
+    min-height: 70px;
+    justify-content: center;
+    align-items: flex-start;
+    span{
+      height: 100%
+    }
+    button{
+      height: 100%;
+      margin-top: 5px;
+      width: 100%;
+    }
+  }
+  
 }
 </style>
